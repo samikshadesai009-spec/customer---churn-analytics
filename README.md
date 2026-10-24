@@ -1,27 +1,27 @@
 # Customer Churn Analysis using SQL
 
 ## 📌 Project Overview
-हा प्रोजेक्ट एका टेलिकॉम/बँकिंग कंपनीच्या ग्राहकांचा डेटा विश्लेषित करण्यासाठी तयार केला आहे. कंपनी सोडून जाणाऱ्या ग्राहकांचे (Churned Customers) प्रमाण शोधणे, त्यांची कारणे समजून घेणे आणि ग्राहकांना रोखण्यासाठी (Customer Retention) बिझनेस इनसाइट्स मिळवणे हा या प्रोजेक्टचा मुख्य उद्देश आहे.
+This project focuses on analyzing customer data for a telecom/banking company to identify the key factors driving customer churn. The primary objective is to calculate the churn rate, understand customer behavior, and discover actionable business insights that can help the company improve customer retention strategies.
 
-## 📊 Database Schema (टेबल स्ट्रक्चर)
-या प्रोजेक्टमध्ये आपण `customer_churn` नावाचा टेबल वापरला आहे, ज्यामध्ये खालील मुख्य कॉलम्स आहेत:
-- `customer_id`: प्रत्येक ग्राहकाचा युनिक आयडी (Primary Key)
-- `age`: ग्राहकाचे वय
-- `gender`: लिंग (Male/Female)
-- `tenure`: ग्राहक कंपनीसोबत किती महिने जोडलेला आहे
-- `balance` / `monthly_charges`: ग्राहकाचे बँक बॅलन्स किंवा मासिक बिल
-- `churn_status`: ग्राहक सोडून गेला की नाही (1 = सोडून गेला, 0 = अजूनही ग्राहक आहे)
+## 📊 Database Schema (Table Structure)
+The project utilizes a database table named `customer_churn` with the following key attributes:
+- `customer_id`: Unique identifier for each customer (Primary Key)
+- `age`: Age of the customer
+- `gender`: Gender of the customer (Male/Female)
+- `tenure`: Number of months the customer has stayed with the company
+- `balance` / `monthly_charges`: Account balance or monthly bill amount
+- `churn_status`: Indicates if the customer has left (1 = Churned, 0 = Active)
 
 ## 🛠️ Tech Stack Used
-- **Database:** MySQL / PostgreSQL / MS SQL Server (तुम्ही जे वापरत आहात ते लिहा)
-- **Concepts:** Data Aggregation, Windows Functions, CTEs, Case Statements
+- **Database:** SQL (MySQL / PostgreSQL / MS SQL Server)
+- **Key Concepts:** Data Aggregation, Window Functions, CTEs (Common Table Expressions), Case Statements
 
 ---
 
-## 🔍 Business Problems & SQL Queries (महत्त्वाचे प्रश्न आणि कोड)
+## 🔍 Business Problems & SQL Queries
 
-### 1. एकूण ग्राहक आणि चर्न रेट (Total Customers & Churn Rate)
-**प्रश्न:** एकूण किती ग्राहक आहेत आणि त्यापैकी किती टक्के ग्राहक सोडून गेले?
+### 1. Total Customers & Churn Rate
+**Problem:** What is the total number of customers and the overall customer churn rate percentage?
 ```sql
 SELECT 
     COUNT(customer_id) AS Total_Customers,
@@ -30,8 +30,8 @@ SELECT
 FROM customer_churn;
 ```
 
-### 2. लिंगानुसार चर्न विश्लेषण (Churn by Gender)
-**प्रश्न:** महिला ग्राहक जास्त सोडून जात आहेत की पुरुष ग्राहक?
+### 2. Churn Analysis by Gender
+**Problem:** Does gender play a role in customer churn? (Comparing male vs. female churn rates)
 ```sql
 SELECT 
     gender,
@@ -42,8 +42,8 @@ FROM customer_churn
 GROUP BY gender;
 ```
 
-### 3. वयोगटानुसार ग्राहक वर्गीकरण (Churn by Age Group)
-**प्रश्न:** कोणत्या वयाचे ग्राहक कंपनी सर्वात जास्त सोडून जात आहेत?
+### 3. Customer Segmentation by Age Group
+**Problem:** Which age demographics experience the highest churn rate?
 ```sql
 WITH AgeBuckets AS (
     SELECT *,
@@ -64,8 +64,8 @@ GROUP BY age_group
 ORDER BY Churn_Rate DESC;
 ```
 
-### 4. टेन्युअरनुसार चर्न (Churn by Tenure)
-**प्रश्न:** नवीन ग्राहक लवकर सोडून जातात की जुने ग्राहक? (टॉप ५ टेन्युअर महिने शोधणे)
+### 4. Churn Analysis by Tenure
+**Problem:** Are new customers more likely to churn compared to long-term customers? (Top 5 tenure months with highest churn)
 ```sql
 SELECT 
     tenure,
@@ -80,6 +80,6 @@ LIMIT 5;
 
 ---
 
-## 💡 Key Insights & Business Recommendations (निष्कर्ष)
-- **निष्कर्ष १:** ५० वर्षांपेक्षा जास्त वय असलेल्या ग्राहकांचा चर्न रेट सर्वात जास्त आहे. कंपनीने त्यांच्यासाठी सोप्या सेवा किंवा ऑफर्स आणल्या पाहिजेत.
-- **निष्कर्ष २:** जे ग्राहक पहिल्या ६ महिन्यांत (Low Tenure) सोडून जात आहेत, त्यांना आकर्षित करण्यासाठी सुरुवातीला उत्तम सर्व्हिस देणे गरजेचे आहे.
+## 💡 Key Insights & Business Recommendations
+- **Insight 1:** Customers aged **above 50** exhibit the highest churn rate. The company should design senior-friendly loyalty programs or simplified user interfaces to retain them.
+- **Insight 2:** A significant volume of churn occurs within the **first 6 months (Low Tenure)**. Enhancing the onboarding experience and offering early-stage discounts could boost customer retention.
